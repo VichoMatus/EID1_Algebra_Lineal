@@ -1,0 +1,1 @@
+#Clase Inversa con sus propios métodos
