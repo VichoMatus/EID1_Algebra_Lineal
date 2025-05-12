@@ -1,5 +1,13 @@
-#Clase Sustracción con sus propios métodos
-
 def resta_matrices(A, B):
-    return [[A[i][j] - B[i][j] for j in range(len(A[0]))] for i in range(len(A))]
+    pasos = "Paso 1: Restar elementos correspondientes de A y B\n\n"
+    resultado = []
 
+    for i in range(len(A)):
+        fila = []
+        for j in range(len(A[0])):
+            resta = A[i][j] - B[i][j]
+            pasos += f"A[{i}][{j}] - B[{i}][{j}] = {A[i][j]} - {B[i][j]} = {resta}\n"
+            fila.append(resta)
+        resultado.append(fila)
+
+    return resultado, pasos

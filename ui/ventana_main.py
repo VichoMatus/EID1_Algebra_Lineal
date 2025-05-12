@@ -42,6 +42,10 @@ class MatrixTab:
         self.resultado_frame = ctk.CTkFrame(self.frame)
         self.resultado_frame.grid(row=1, column=3, padx=10, pady=10)
 
+        self.pasos_textbox = ctk.CTkTextbox(self.frame, width=400, height=200)
+        self.pasos_textbox.grid(row=3, column=0, columnspan=5, padx=10, pady=10)
+
+
         # Etiquetas
         ctk.CTkLabel(self.frame, text="Matriz A").grid(row=2, column=1)
         if operation in ["Suma", "Resta", "Multiplicación"]:
@@ -89,30 +93,37 @@ class MatrixTab:
     def calcular(self):
         for widget in self.resultado_frame.winfo_children():
             widget.destroy()
+        self.pasos_textbox.delete("0.0", "end")  # limpia pasos anteriores
 
         try:
             A = self.leer_matriz(self.entries_a)
 
             if self.operation == "Determinante":
-                resultado = determinante(A)
+                if len(A) != len(A[0]):
+                    raise ValueError("La matriz debe ser cuadrada para calcular el determinante.")
+                resultado, pasos = determinante(A)
                 ctk.CTkLabel(self.resultado_frame, text=f"Determinante de A: {resultado:.2f}",
-                             font=("Arial", 14)).grid(row=0, column=0, padx=10, pady=10)
+                            font=("Arial", 14)).grid(row=0, column=0, padx=10, pady=10)
 
             elif self.operation == "Inversa":
-                resultado = inversa(A)
+                if len(A) != len(A[0]):
+                    raise ValueError("La matriz debe ser cuadrada para calcular su inversa.")
+                resultado, pasos = inversa(A)
                 self.mostrar_matriz(resultado)
 
             else:
                 B = self.leer_matriz(self.entries_b)
                 if self.operation == "Suma":
-                    resultado = suma_matrices(A, B)
+                    resultado, pasos = suma_matrices(A, B)
                 elif self.operation == "Resta":
-                    resultado = resta_matrices(A, B)
+                    resultado, pasos = resta_matrices(A, B)
                 elif self.operation == "Multiplicación":
-                    resultado = multiplicar_matrices(A, B)
+                    resultado, pasos = multiplicar_matrices(A, B)
                 else:
                     raise ValueError("Operación no válida")
                 self.mostrar_matriz(resultado)
+
+            self.pasos_textbox.insert("0.0", pasos)
 
         except Exception as e:
             messagebox.showerror("Error", str(e))
@@ -129,7 +140,7 @@ def run_app():
     ctk.set_default_color_theme("blue")
 
     app = ctk.CTk()
-    app.geometry("950x550")
+    app.geometry("950x750")
     app.title("Calculadora de Matrices")
 
     tabview = ctk.CTkTabview(app)
