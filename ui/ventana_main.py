@@ -1,5 +1,4 @@
-<<<<<<< Updated upstream
-=======
+
 import customtkinter as ctk
 from tkinter import messagebox
 
@@ -150,7 +149,7 @@ class MatrixTab:
         for i, fila in enumerate(resultado):
             for j, val in enumerate(fila):
                 ctk.CTkLabel(self.resultado_frame, text=f"{val:.2f}",
-                             width=60, height=30, fg_color="#b2bac2", corner_radius=6).grid(row=i + start_row, column=j, padx=4, pady=4)
+                width=60, height=30, fg_color="#b2bac2", corner_radius=6).grid(row=i + start_row, column=j, padx=4, pady=4)
 
 
 def run_app():
@@ -179,4 +178,4 @@ def run_app():
 
     app.mainloop()
 
->>>>>>> Stashed changes
+
